@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/main.css') }}"
+        />
+        {% block head %}{% endblock %}
+        <title>Auranate</title>
+    </head>
+    <body style="min-height: 100vh; display: flex; flex-direction: column">
+        <h1>Auranate</h1>
+        <div style="flex: 1">{% block body %}{% endblock %}</div>
+    </body>
+    <footer
+        style="
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            padding-bottom: 30px;
+        "
+    >
+        <p>Dundee Zhang - Some rights reserved</p>
+        <a href="https://dundeezhang.com" style="color: #fff"
+            >dundeezhang.com</a
+        >
+    </footer>
+</html>

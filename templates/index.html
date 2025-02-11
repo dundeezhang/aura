@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+<!--Head-->
+
+{% block head %} {% endblock %}
+
+<!--Body-->
+
+{% block body %}
+<div class="content">
+    <div style="text-align: center">
+        <form action="/" method="POST">
+            <textarea
+                name="content"
+                id="content index-box"
+                style="
+                    width: 500px;
+                    height: 390px;
+                    word-wrap: break-word;
+                    overflow-wrap: break-word;
+                "
+            ></textarea>
+            <input type="submit" value="Submit Resume" />
+        </form>
+    </div>
+    <div id="page">{{ page|safe }}</div>
+</div>
+
+{% endblock %}
