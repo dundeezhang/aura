@@ -17,7 +17,7 @@ def gen_page(resume_text):
         messages=[
             {
             "role": "user", 
-            "content": f"Write an HTML webpage with zero CSS that takes in this following resume text and turns the contents into a webpage. Make all headings h3 tags and all subheading content into tables. Bold the first row of the table and label it accordingly. Do not hallucinate: {resume_text}. Make the table widths fit the width of the content and do not use a custom font. Output in only HTML without the markdown tags. Make the skills and interests and similar sections have the first column as the subtitle name and the second column be the contents. Ommit all descriptions from the tables. For tables involving the date/duration, make the table order be: date/duration, title, location, description etc. The only CSS will be: to each cell in the table 20px horizontal padding and ZERO vertical padding, and give each table solid border as well."
+            "content": f"Write an HTML webpage with zero CSS that takes in this following resume text and turns the contents into a webpage. Make all headings h3 tags and all subheading content into tables. Bold the first row of the table and label it accordingly. Do not hallucinate: {resume_text}. Make the table widths fit the width of the content and do not use a custom font. Output in only HTML without the markdown tags. Make the skills and interests and similar sections have the first column as the subtitle name and the second column be the contents, all still in the same table. DO NOT HAVE ANY CSS. DO NOT INCLUDE THE MARKDOWN TAGS."
             }
         ]
     )
