@@ -8,10 +8,9 @@
             href="{{ url_for('static', filename='css/main.css') }}"
         />
         {% block head %}{% endblock %}
-        <title>Auranate</title>
+        <title>Signature Generator</title>
     </head>
     <body style="min-height: 100vh; display: flex; flex-direction: column">
-        <h1>Auranate</h1>
         <div style="flex: 1">{% block body %}{% endblock %}</div>
     </body>
     <footer
