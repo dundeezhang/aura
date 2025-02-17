@@ -3,6 +3,33 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Auranate</title>
+        <meta
+            name=" description"
+            content="Auranate. Accelerate your workflow. A dhz app."
+        />
+        <!--icons-->
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="{{ url_for('static', filename='icons/apple-touch-icon.png') }}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="{{ url_for('static', filename='icons/favicon-32x32.png') }}"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="{{ url_for('static', filename='icons/favicon-16x16.png') }}"
+        />
+        <link
+            rel="manifest"
+            href="{{ url_for('static', filename='icons/site.webmanifest') }}"
+        />
         <!--Style Sheets-->
         <link
             rel="stylesheet"
@@ -29,32 +56,24 @@
             crossorigin="anonymous"
         ></script>
         {% block head %} {% endblock %}
-        <title>Auranate</title>
     </head>
     <body style="min-height: 100vh; display: flex; flex-direction: column">
         <div style="flex: 1">
             <div class="container">
                 <div class="navbar">
-                    <button class="menu-toggle" onclick="toggleMenu()">
-                        <i class="fa-solid fa-bars"></i>
-                    </button>
-                    <button class="close-menu" onclick="toggleMenu()">
-                        <i class="fa-solid fa-times"></i>
-                    </button>
+                    <div class="burger">
+                        <button class="menu-toggle" onclick="toggleMenu()">
+                            <i class="fa-solid fa-bars"></i>
+                        </button>
+                    </div>
+
                     <ul>
                         <li><a href="/">Home</a></li>
-                        <li><a href="signature">SignatureGen</a></li>
-                        <li><a href="webgen">WebsiteGen</a></li>
-                        <li><a href="linkedingen">LinkedinGen</a></li>
+                        <li><a href="covergen">CoverGen</a></li>
                         <li><a href="emailgen">EmailGen</a></li>
-                        <li class="last">
-                            <a href="https://dundeezhang.com" target="_blank"
-                                >Portfolio
-                                <i
-                                    class="fa-solid fa-arrow-up-right-from-square"
-                                ></i
-                            ></a>
-                        </li>
+                        <li><a href="linkedingen">LinkedinGen</a></li>
+                        <li><a href="signature">SignatureGen</a></li>
+                        <li class="last"><a href="webgen">WebsiteGen</a></li>
                     </ul>
                 </div>
 

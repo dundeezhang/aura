@@ -28,9 +28,6 @@
 
 <div id="form-container">
     <form method="POST" id="email-form">
-        <label for="name">Your Name:</label>
-        <input type="text" id="name" name="name" required />
-
         <label for="tone">Tone:</label>
         <select id="tone" name="tone" required>
             <option value="formal">Formal</option>
@@ -38,6 +35,9 @@
             <option value="friendly">Friendly</option>
             <option value="Aggressive">Aggressive</option>
         </select>
+
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required />
 
         <label for="old-email">Email you are replying to:</label>
         <textarea id="old-email" name="old-email" rows="4" required></textarea>

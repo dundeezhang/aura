@@ -8,18 +8,18 @@
 <script src="https://cdn.jsdelivr.net/npm/marked@latest/marked.min.js"></script>
 {% endblock %} {% block body %}
 
-<h1>LinkedIn Post Generator</h1>
+<h1>Cover Letter Generator</h1>
 
 <p>
-    LinkedinGen will generate a Linkedin post for you once you have finished
-    making your projects. Less thinking about what to write, more thinking about
-    your product. This tool will boost your productivity and your Linkedin
-    clout, so don't hesitate to use it.
+    CoverGen generates an industry relevant cover letter. Give it your resume,
+    and aspiring job title, and maybe additional job relavent information too
+    and CoverGen will give you what you need. Don't let random chance decide
+    your fate, let CoverGen boost your chances!
 </p>
 
 <div id="generated-post-container">
     {% if result %}
-    <h2>Generated Post:</h2>
+    <h2>Generated Letter:</h2>
     <p><em>Note that this is generated in markdown.</em></p>
     <button id="copy-button">Copy Post</button>
     <div id="generated-post">{{ result }}</div>
@@ -28,20 +28,21 @@
 
 <div id="form-container">
     <form method="POST" id="linkedin-form">
-        <label for="project">Project Name:</label>
-        <input type="text" id="project" name="project" required />
+        <label for="job-title">Job Title:</label>
+        <input type="text" id="job-title" name="job-title" required />
 
-        <label for="github">GitHub Repository Link (Optional):</label>
-        <input type="url" id="github" name="github" />
+        <label for="resume">Resume:</label>
+        <textarea id="resume" name="resume" rows="4" required></textarea>
 
-        <label for="project-link">Project Link (Optional):</label>
-        <input type="url" id="project-link" name="project-link" />
+        <label for="company">Company Name (Optional):</label>
+        <input type="text" id="company" name="company" />
 
-        <label for="tech">Technologies Used (comma-separated):</label>
-        <input type="text" id="tech" name="tech" required />
-
-        <label for="purpose">Project Purpose:</label>
-        <textarea id="purpose" name="purpose" rows="4" required></textarea>
+        <label for="job-description">Job Description (Optional):</label>
+        <textarea
+            id="job-description"
+            name="job-description"
+            rows="6"
+        ></textarea>
 
         <label for="other-information">Other Information (Optional):</label>
         <textarea

@@ -2,7 +2,6 @@
 #displayImage {
     margin-top: 20px;
     border-radius: 8px; /* Rounded corners for image */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for image */
     max-width: 100%; /* Make image responsive */
     height: auto;
     display: block; /* Important for centering */
@@ -23,4 +22,12 @@
     form {
         width: 90%; /* Adjust form width for smaller screens */
     }
+}
+
+/* Center the reCAPTCHA widget */
+.g-recaptcha {
+    display: block;
+    margin: 0 auto 12px;
+    width: fit-content;
+    text-align: center;
 }

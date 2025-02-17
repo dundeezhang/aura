@@ -1,4 +1,10 @@
-from flask import Flask, render_template, url_for, request, redirect, jsonify
+from flask import Flask, render_template, url_for, request, redirect, make_response, session, abort, jsonify
+import requests
+import secrets
+from functools import wraps
+import firebase_admin
+from firebase_admin import credentials, firestore, auth
+from datetime import timedelta
 import os
 from dotenv import load_dotenv
 from openai import OpenAI
@@ -9,6 +15,22 @@ load_dotenv()
 client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY"),
 )
+
+# firebase
+app.secret_key = os.getenv('SECRET_KEY')
+
+# Configure session cookie settings
+app.config['SESSION_COOKIE_SECURE'] = True  # Ensure cookies are sent over HTTPS
+app.config['SESSION_COOKIE_HTTPONLY'] = True  # Prevent JavaScript access to cookies
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)  # Adjust session expiration as needed
+app.config['SESSION_REFRESH_EACH_REQUEST'] = True
+app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'  # Can be 'Strict', 'Lax', or 'None'
+
+
+# Firebase Admin SDK setup
+cred = credentials.Certificate("firebase-auth.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 def gen_signature(sig_name):
     completion = client.images.generate(
@@ -36,7 +58,7 @@ def gen_page(resume_text):
 def gen_email(reply_to, tone, name):
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
-        store=False,
+        store=True,
         messages=[
             {
             "role": "user", 
@@ -49,7 +71,7 @@ def gen_email(reply_to, tone, name):
 def gen_post(name, link, technologies, purpose, other_information, github):
     completion = client.chat.completions.create(
         model="gpt-4o-mini",
-        store=False,
+        store=True,
         messages=[
             {
             "role": "user", 
@@ -59,24 +81,122 @@ def gen_post(name, link, technologies, purpose, other_information, github):
     )
     return completion.choices[0].message.content
 
+def gen_cover(resume, job_title, company, job_description, other_info):
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        store=True,
+        messages=[
+            {
+            "role": "user", 
+            "content": f"Write a cover letter for this job title: {job_title} with this resume: {resume}. Company name is {company}, and the job description is {job_description}. The company name and job description might not be given, so in that case, write the cover letter with just the resume and job title. Other information may be included here: {other_info}. Do not hallucinate. Do not exaggerate. DO NOT INCLUDE THE HEADER. Output in markdown. Keep it within 500 words. Begin with 'Dear Hiring Manager,' and end off with, 'Warm Regards, my name.' Always put a new line after the greeting and a new line before the salutation."
+            }
+        ]
+    )
+    return completion.choices[0].message.content
+
+
+# Decorator for routes that require authentication
+def auth_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Check if user is authenticated
+        if 'user' not in session:
+            return redirect(url_for('login'))
+        
+        else:
+            return f(*args, **kwargs)
+        
+    return decorated_function
+
+
+@app.route('/auth', methods=['POST'])
+def authorize():
+    token = request.headers.get('Authorization')
+    if not token or not token.startswith('Bearer '):
+        return "Unauthorized", 401
+
+    token = token[7:]  # Strip off 'Bearer ' to get the actual token
+
+    try:
+        decoded_token = auth.verify_id_token(token, check_revoked=True, clock_skew_seconds=60) # Validate token here
+        session['user'] = decoded_token # Add user to session
+        return redirect(url_for('signature_page'))
+    
+    except:
+        return "Unauthorized", 401
+
+@app.route('/login')
+def login():
+    if 'user' in session:
+        return redirect(url_for('signature_page'))
+    else:
+        return render_template('login.html')
+
+@app.route('/signup')
+def signup():
+    if 'user' in session:
+        return redirect(url_for('signature_page'))
+    else:
+        return render_template('signup.html')
+
+
+@app.route('/reset-password')
+def reset_password():
+    if 'user' in session:
+        return redirect(url_for('signature_page'))
+    else:
+        return render_template('forgot_password.html')
+    
+@app.route('/logout')
+def logout():
+    session.pop('user', None)  # Remove the user from session
+    response = make_response(redirect(url_for('login')))
+    response.set_cookie('session', '', expires=0)  # Optionally clear the session cookie
+    return response
+
 # Default image URL
-current_image_url = "./static/images/tempimage.jpg"
+current_image_url = "./static/images/trans.png"
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     return render_template("index.html")
 
 @app.route("/signature", methods=["GET", "POST"])
+@auth_required
 def signature_page():
     return render_template("signature.html", image_url=current_image_url)
 
+import requests
+from flask import request, jsonify
+
 @app.route("/update-image", methods=["POST"])
 def update_image():
-    global current_image_url
-    sig_name = request.form.get("name")
-    new_url = gen_signature(sig_name)
+    # Get reCAPTCHA response from the form
+    recaptcha_response = request.form.get('g-recaptcha-response')
+    
+    # Replace with your actual secret key obtained from the reCAPTCHA admin console
+    secret_key = '6Lcrb9kqAAAAANMWPyTS0dujJ46iZebLb26oWLOE'
+
+    # Verify the CAPTCHA by sending a request to Google's reCAPTCHA verification endpoint
+    payload = {
+        'secret': secret_key,
+        'response': recaptcha_response
+    }
+    verify_url = "https://www.google.com/recaptcha/api/siteverify"
+    response = requests.post(verify_url, data=payload)
+    result = response.json()
+
+    # Check if the CAPTCHA verification was successful
+    if result.get('success'):
+        # CAPTCHA passed, proceed with generating the signature
+        sig_name = request.form.get("name")
+        new_url = gen_signature(sig_name)
         
-    return jsonify({"success": True, "new_url": new_url})
+        return jsonify({"success": True, "new_url": new_url})
+    else:
+        # CAPTCHA failed
+        return jsonify({"success": False, "error": "CAPTCHA verification failed. Please try again."})
+
 
 @app.route("/webgen", methods=['POST', 'GET'])
 def web_gen():
@@ -117,6 +237,21 @@ def email_gen():
     else:
         return render_template("emailgen.html", result=None)
 
+@app.route("/covergen", methods=['POST', 'GET'])
+def cover_gen():
+    # resume, job_title, company, job_description
+    if request.method == 'POST':
+        resume = request.form['resume']
+        job_title = request.form['job-title']
+        company = request.form['company'] or "NONE"
+        job_description = request.form['job-description'] or "NONE"
+        other_info = request.form['other-information'] or "NONE"
+        result = gen_cover(resume, job_title, company, job_description, other_info)
+        
+        return render_template("covergen.html", result=result)
+    else:
+        return render_template("covergen.html", result=None)
+    
 if __name__ == "__main__":
     app.run(debug=True)
 

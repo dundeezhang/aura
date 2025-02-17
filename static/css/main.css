@@ -3,6 +3,7 @@ html {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
+    color: black;
 }
 
 a {
@@ -108,4 +109,30 @@ span.glow {
     to {
         background-position: 200% center;
     }
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: green !important;
+    outline: none !important; /* Removes the default outline if you prefer only the border to be highlighted */
+}
+
+.google-btn-logo {
+    height: 20px;
+    margin-bottom: -3px;
+}
+
+button.google-login-btn {
+    background-color: white !important;
+    color: black !important;
+    border: solid !important;
+    border-color: grey !important;
+    border-width: 1px !important;
+}
+
+div.error-msg {
+    color: red;
+    text-align: center;
+    margin: 5px;
 }

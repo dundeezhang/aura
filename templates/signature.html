@@ -1,15 +1,17 @@
 {% extends 'base.html' %}
 
-<!--Head-->
+<!-- Head -->
 
 {% block head %}
 <link
     rel="stylesheet"
     href="{{ url_for('static', filename='css/signature.css') }}"
 />
+<!-- Add reCAPTCHA script -->
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
 
-<!--Body-->
+<!-- Body -->
 
 {% block body %}
 <h1>Signature Generator</h1>
@@ -20,10 +22,18 @@
     and wait for the result to come out.
 </p>
 
+<p>
+    Also please do not spam generate signatures since the API is
+    <em>very</em> expensive. Let others also enjoy this as well! Thank you! Feel
+    free to logout below when you are done.
+</p>
+
+<p><a href="logout">Logout</a></p>
+
 <div class="main-content">
     <div class="">
         <h3>Enter Name to Update Image</h3>
-        <form id="updateForm">
+        <form id="updateForm" action="/generate_signature" method="POST">
             <input
                 type="text"
                 id="nameInput"
@@ -31,14 +41,21 @@
                 placeholder="Enter name"
                 required
             />
+
+            <!-- Add reCAPTCHA widget -->
+            <div
+                class="g-recaptcha"
+                data-sitekey="6Lcrb9kqAAAAALRIgchhsONdVeMWtoLfYHgddy0K"
+            ></div>
+
             <button type="submit">Generate Signature</button>
         </form>
-        <img id="displayImage" src="{{ image_url }}" alt="Image" width="300" />
         <p id="loadingMessage" style="display: none">
             <span class="glow">Generating Signature...</span>
         </p>
 
         <p id="errorMessage" style="color: red"></p>
+        <img id="displayImage" src="{{ image_url }}" alt="Image" width="300" />
     </div>
 </div>
 

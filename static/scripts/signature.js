@@ -4,29 +4,45 @@ document
         event.preventDefault();
 
         let name = document.getElementById("nameInput").value;
+        let recaptchaResponse = grecaptcha.getResponse();
         let loadingMessage = document.getElementById("loadingMessage");
         let displayImage = document.getElementById("displayImage");
         let errorMessage = document.getElementById("errorMessage");
 
-        // Show loading message
         loadingMessage.style.display = "block";
         errorMessage.textContent = "";
+
+        if (!recaptchaResponse) {
+            errorMessage.textContent = "Please complete the CAPTCHA.";
+            loadingMessage.style.display = "none";
+            return;
+        }
 
         fetch("/update-image", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
-            body: "name=" + encodeURIComponent(name),
+            body:
+                "name=" +
+                encodeURIComponent(name) +
+                "&g-recaptcha-response=" +
+                encodeURIComponent(recaptchaResponse),
         })
             .then((response) => response.json())
             .then((data) => {
-                loadingMessage.style.display = "none";
                 if (data.success) {
-                    displayImage.src = data.new_url;
-                    errorMessage.textContent = "";
+                    let newImage = new Image();
+                    newImage.src = data.new_url;
+
+                    newImage.onload = function () {
+                        displayImage.src = data.new_url;
+                        loadingMessage.style.display = "none";
+                        errorMessage.textContent = "";
+                    };
                 } else {
-                    errorMessage.textContent = "Name not found. Try another.";
+                    loadingMessage.style.display = "none";
+                    errorMessage.textContent = "Something went wrong.";
                 }
             })
             .catch(() => {
@@ -43,30 +59,45 @@ document
             event.preventDefault();
 
             let name = document.getElementById("nameInput").value;
+            let recaptchaResponse = grecaptcha.getResponse();
             let loadingMessage = document.getElementById("loadingMessage");
             let displayImage = document.getElementById("displayImage");
             let errorMessage = document.getElementById("errorMessage");
 
-            // Show loading message
             loadingMessage.style.display = "block";
             errorMessage.textContent = "";
+
+            if (!recaptchaResponse) {
+                errorMessage.textContent = "Please complete the CAPTCHA.";
+                loadingMessage.style.display = "none";
+                return;
+            }
 
             fetch("/update-image", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                 },
-                body: "name=" + encodeURIComponent(name),
+                body:
+                    "name=" +
+                    encodeURIComponent(name) +
+                    "&g-recaptcha-response=" +
+                    encodeURIComponent(recaptchaResponse),
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    loadingMessage.style.display = "none";
                     if (data.success) {
-                        displayImage.src = data.new_url;
-                        errorMessage.textContent = "";
+                        let newImage = new Image();
+                        newImage.src = data.new_url;
+
+                        newImage.onload = function () {
+                            displayImage.src = data.new_url;
+                            loadingMessage.style.display = "none";
+                            errorMessage.textContent = "";
+                        };
                     } else {
-                        errorMessage.textContent =
-                            "Name not found. Try another.";
+                        loadingMessage.style.display = "none";
+                        errorMessage.textContent = "Something went wrong.";
                     }
                 })
                 .catch(() => {

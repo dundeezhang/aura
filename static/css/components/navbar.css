@@ -25,9 +25,6 @@
 .navbar li.last {
     margin-right: 0;
 }
-i {
-    margin-left: 3px;
-}
 
 /* Hamburger menu */
 .menu-toggle {
@@ -38,25 +35,25 @@ i {
     border: none;
     color: black;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
     transform: translate(-50%, -50%);
-    z-index: 9999; /* Ensure hamburger button is on top */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    width: 100%; /* Full width button */
+    align-items: center;
+    z-index: 10000; /* Ensure hamburger button is on top */
+    padding: none;
 }
 .menu-toggle:hover {
     background: none;
 }
-.close-menu {
-    display: none;
-    cursor: pointer;
-    font-size: 24px;
-    background: none;
-    border: none;
-    color: black;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 9999; /* Ensure close button is on top */
+
+div.burger {
+    width: fit-content;
+    margin: auto;
+}
+
+button.menu-toggle {
+    width: fit-content;
 }
 
 @media (max-width: 800px) {
@@ -84,8 +81,5 @@ i {
         text-align: left;
         width: 100%;
         padding: 10px;
-    }
-    .close-menu.show {
-        display: block;
     }
 }
