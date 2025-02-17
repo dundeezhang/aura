@@ -175,7 +175,7 @@ def update_image():
     recaptcha_response = request.form.get('g-recaptcha-response')
     
     # Replace with your actual secret key obtained from the reCAPTCHA admin console
-    secret_key = '6Lcrb9kqAAAAANMWPyTS0dujJ46iZebLb26oWLOE'
+    secret_key = ''
 
     # Verify the CAPTCHA by sending a request to Google's reCAPTCHA verification endpoint
     payload = {
