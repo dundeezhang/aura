@@ -1,0 +1,27 @@
+/* Image Styles */
+#displayImage {
+    margin-top: 20px;
+    border-radius: 8px; /* Rounded corners for image */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for image */
+    max-width: 100%; /* Make image responsive */
+    height: auto;
+    display: block; /* Important for centering */
+    margin: 20px auto; /* Centers horizontally and adds top margin */
+}
+
+#loadingMessage {
+    margin-top: 10px;
+    color: grey;
+}
+
+/* Loading and Error Messages */
+#errorMessage {
+    margin-top: 10px;
+}
+
+/* Responsive Design (adjust as needed) */
+@media (max-width: 400px) {
+    form {
+        width: 90%; /* Adjust form width for smaller screens */
+    }
+}

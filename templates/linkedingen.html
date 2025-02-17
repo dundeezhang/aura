@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+{% extends 'base.html' %} {% block head %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/linkedin.css') }}"
+/>
+{% endblock %} {% block body %}
+
+<h1>LinkedIn Post Generator</h1>
+
+<div id="generated-post-container">
+    {% if result %}
+    <h2>Generated Post:</h2>
+    <p>Note that this is generated in plain markdown.</p>
+    <div id="generated-post">{{ result }}</div>
+
+    <button id="copy-button">Copy Post</button>
+    {% endif %}
+</div>
+
+<div id="form-container">
+    <form method="POST" id="linkedin-form">
+        <label for="project">Project Name:</label>
+        <input type="text" id="project" name="project" required />
+
+        <label for="github">GitHub Repository Link (Optional):</label>
+        <input type="url" id="github" name="github" />
+
+        <label for="project-link">Project Link (Optional):</label>
+        <input type="url" id="project-link" name="project-link" />
+
+        <label for="tech">Technologies Used (comma-separated):</label>
+        <input type="text" id="tech" name="tech" required />
+
+        <label for="purpose">Project Purpose:</label>
+        <textarea id="purpose" name="purpose" rows="4" required></textarea>
+
+        <label for="other-information">Other Information (Optional):</label>
+        <textarea
+            id="other-information"
+            name="other-information"
+            rows="4"
+        ></textarea>
+        <div class="button">
+            <button type="submit" id="generate-button">Generate Post</button>
+        </div>
+    </form>
+</div>
+
+<div id="generating-message" style="display: none">
+    Generating... Please wait.
+</div>
+
+<script>
+    const formContainer = document.getElementById("form-container");
+    const generatingMessage = document.getElementById("generating-message");
+    const linkedinForm = document.getElementById("linkedin-form");
+    const generateButton = document.getElementById("generate-button");
+
+    linkedinForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        formContainer.style.display = "none"; // Hide the form
+        generatingMessage.style.display = "block"; // Show the generating message
+
+        fetch(linkedinForm.action, {
+            method: linkedinForm.method,
+            body: new FormData(linkedinForm),
+        })
+            .then((response) => response.text())
+            .then((html) => {
+                document.documentElement.innerHTML = html;
+                attachCopyButtonListener();
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+                generatingMessage.style.display = "none";
+                formContainer.style.display = "block"; // Show form again
+                alert("An error occurred during post generation.");
+            });
+    });
+
+    function attachCopyButtonListener() {
+        const copyButton = document.getElementById("copy-button");
+        const generatedPost = document.getElementById("generated-post");
+
+        if (copyButton && generatedPost) {
+            copyButton.addEventListener("click", function () {
+                const range = document.createRange();
+                range.selectNodeContents(generatedPost);
+                window.getSelection().removeAllRanges();
+                window.getSelection().addRange(range);
+                navigator.clipboard
+                    .writeText(range.toString())
+                    .then(() => {
+                        copyButton.textContent = "Copied!";
+                        setTimeout(() => {
+                            copyButton.textContent = "Copy Post";
+                        }, 2000);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to copy: ", err);
+                        copyButton.textContent = "Copy Failed";
+                        setTimeout(() => {
+                            copyButton.textContent = "Copy Post";
+                        }, 2000);
+                    });
+                window.getSelection().removeAllRanges();
+            });
+        }
+    }
+    attachCopyButtonListener();
+</script>
+
+{% endblock %}

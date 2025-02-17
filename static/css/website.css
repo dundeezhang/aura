@@ -1,0 +1,10 @@
+/* Responsive Design (adjust as needed) */
+@media (max-width: 768px) {
+    /* Example breakpoint */
+    form {
+        width: 90%; /* Adjust form width for smaller screens */
+    }
+    #page {
+        width: 95%; /* Adjust output width */
+    }
+}

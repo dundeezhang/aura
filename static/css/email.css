@@ -1,0 +1,43 @@
+/* Target the select element (the dropdown) */
+select {
+    appearance: none; /* Remove default arrow */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    background-color: #f2f2f2; /* Light gray background */
+    border: 1px solid #ccc; /* Light gray border */
+    padding: 10px; /* Padding inside the box */
+    font-size: 16px; /* Font size */
+    border-radius: 5px; /* Rounded corners */
+    width: 100%; /* Occupy full width of container */
+    margin-bottom: 15px; /* Space below the element */
+    background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24h-24z' fill='none'/></svg>"); /* Add custom arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* Position the arrow */
+    padding-right: 30px; /* Make space for the arrow */
+}
+
+/* Hover effect */
+select:hover {
+    border-color: #999; /* Darker border on hover */
+}
+
+/* Focus effect (when the dropdown is clicked) */
+select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #66afe9; /* Highlight border color */
+    box-shadow: 0 0 5px rgba(102, 175, 233, 0.5); /* Add a subtle shadow */
+}
+
+/* Style the options inside the dropdown */
+select option {
+    padding: 8px 10px; /* Padding for each option */
+    font-size: 16px;
+}
+
+/* Responsive Design (adjust as needed) */
+@media (max-width: 500px) {
+    .contact-us {
+        width: 90%; /* Adjust width for smaller screens */
+        padding: 20px;
+    }
+}

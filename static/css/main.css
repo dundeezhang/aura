@@ -1,55 +1,83 @@
-.main-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-    font-family: sans-serif;
-    margin: 0;
-    text-align: center;
+html {
+    font-family: "Raleway", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
 }
 
-.container {
-    border: solid;
-    border-width: 1px;
-    border-color: rgb(185, 185, 185);
-    width: 50vw;
-    margin: auto;
-    padding-top: 30px;
-    padding-bottom: 30px;
-    border-radius: 15px;
-    box-shadow: 0 0 100px rgba(165, 165, 165, 0.651);
+a {
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    font-weight: 600;
 }
 
-#displayImage {
-    margin-top: 30px;
-    border-radius: 10px;
+a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -1px; /* position */
+    width: 0;
+    height: 1px; /* thickness */
+    background-color: rgb(0, 0, 0);
+    transition: width 0.5s ease; /* time */
+}
+a:hover::before {
+    width: 100%;
 }
 
-h2,
-h3,
-p {
-    margin: 10px 0;
-}
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-input,
-button {
-    padding: 10px;
-    font-size: 16px;
+i.intext {
+    margin-left: 3px;
+    margin-right: 3px;
 }
 
 button {
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    width: 100%; /* Full width button */
+    align-items: center;
 }
 
-#loadingMessage {
-    font-weight: bold;
-    color: gray;
+button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Form Labels */
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555; /* Slightly darker label color */
+}
+
+/* Form Inputs and Textarea */
+input,
+textarea {
+    width: calc(100%); /* Full width with padding adjustment */
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding in width calculation */
+    font-size: 16px; /* Consistent font size */
+}
+
+textarea {
+    height: 120px; /* Adjust height as needed */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+#copy-button {
+    margin: 16px 0;
+}
+
+/* Error Message Styling */
+.error {
+    color: red;
+    margin-top: 8px;
 }

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+<!--Head-->
+
+{% block head %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/website.css') }}"
+/>
+{% endblock %}
+
+<!--Body-->
+
+{% block body %}
+
+<h1>Website Generator (Auranater)</h1>
+
+<div class="content">
+    <div style="text-align: center">
+        <form action="/webgen" method="POST">
+            <textarea
+                name="content"
+                id="content index-box"
+                rows="6"
+                required
+            ></textarea>
+            <div class="button">
+                <button type="submit" id="submit-button">Submit Resume</button>
+            </div>
+        </form>
+    </div>
+    {% if page %}
+    <h1>Generated Website:</h1>
+    <button id="copy-button">Copy Code</button>
+    <button id="download-button">Download HTML</button>
+    <div id="generated-post" style="display: none">{{ page }}</div>
+    <pre id="generated-code">{{ page }}</pre>
+
+    <script>
+        const copyButton = document.getElementById("copy-button");
+        const generatedCode = document.getElementById("generated-code");
+        const downloadButton = document.getElementById("download-button");
+
+        if (copyButton && generatedCode) {
+            copyButton.addEventListener("click", function () {
+                navigator.clipboard
+                    .writeText(generatedCode.textContent)
+                    .then(() => {
+                        copyButton.textContent = "Copied!";
+                        setTimeout(() => {
+                            copyButton.textContent = "Copy Code";
+                        }, 2000);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to copy: ", err);
+                        copyButton.textContent = "Copy Failed";
+                        setTimeout(() => {
+                            copyButton.textContent = "Copy Code";
+                        }, 2000);
+                    });
+            });
+        }
+
+        if (downloadButton && generatedCode) {
+            downloadButton.addEventListener("click", function () {
+                const blob = new Blob([generatedCode.textContent], {
+                    type: "text/html",
+                });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "index.html"; // Set the filename
+                link.style.display = "none"; // Hide the link
+                document.body.appendChild(link); // Add to the DOM
+                link.click(); // Simulate click
+                document.body.removeChild(link); // Remove from the DOM
+                URL.revokeObjectURL(link.href); // Release the URL
+            });
+        }
+
+        if (copyButton && generatedCode) {
+            copyButton.addEventListener("click", function () {
+                navigator.clipboard
+                    .writeText(generatedCode.textContent) // Use textContent for raw text
+                    .then(() => {
+                        copyButton.textContent = "Copied!";
+                        setTimeout(() => {
+                            copyButton.textContent = "Copy Code";
+                        }, 2000);
+                    })
+                    .catch((err) => {
+                        console.error("Failed to copy: ", err);
+                        copyButton.textContent = "Copy Failed";
+                        setTimeout(() => {
+                            copyButton.textContent = "Copy Code";
+                        }, 2000);
+                    });
+            });
+        }
+    </script>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
 
 <!--Head-->
@@ -5,85 +6,48 @@
 {% block head %} {% endblock %}
 
 <!--Body-->
-
 {% block body %}
-<body>
-    <div class="main-content">
-        <div class="container">
-            <h3>Enter Name to Update Image</h3>
-            <form id="updateForm">
-                <input
-                    type="text"
-                    id="nameInput"
-                    name="name"
-                    placeholder="Enter name"
-                    required
-                />
-                <button type="submit">Update Image</button>
-            </form>
-            <img
-                id="displayImage"
-                src="{{ image_url }}"
-                alt="Image"
-                width="300"
-            />
-            <p id="loadingMessage" style="display: none">Loading...</p>
 
-            <p id="errorMessage" style="color: red"></p>
-        </div>
-    </div>
-
-    <script>
-        document
-            .getElementById("updateForm")
-            .addEventListener("submit", function (event) {
-                event.preventDefault();
-
-                let name = document.getElementById("nameInput").value;
-                let loadingMessage = document.getElementById("loadingMessage");
-                let displayImage = document.getElementById("displayImage");
-                let errorMessage = document.getElementById("errorMessage");
-
-                // Show loading message
-                loadingMessage.style.display = "block";
-                errorMessage.textContent = "";
-
-                fetch("/update-image", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                    body: "name=" + encodeURIComponent(name),
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        loadingMessage.style.display = "none";
-                        if (data.success) {
-                            displayImage.src = data.new_url;
-                            errorMessage.textContent = "";
-                        } else {
-                            errorMessage.textContent =
-                                "Name not found. Try another.";
-                        }
-                    })
-                    .catch(() => {
-                        loadingMessage.style.display = "none";
-                        errorMessage.textContent =
-                            "An error occurred. Please try again.";
-                    });
-            });
-
-        document
-            .getElementById("nameInput")
-            .addEventListener("keypress", function (event) {
-                if (event.key === "Enter") {
-                    event.preventDefault();
-                    document
-                        .getElementById("updateForm")
-                        .dispatchEvent(new Event("submit"));
-                }
-            });
-    </script>
-</body>
-
+<h1>Welcome to Auranate! 🔝</h1>
+<p>
+    Here, you will find a collection of tools that will help you accelerate
+    forward in your professional career.
+</p>
+<p>
+    Check out <a href="signature">SignatureGen</a> to get inspiration for your
+    next signature. Using DALLE-3 from OpenAI, it will generate a beautiful
+    reference signature for you to take inspiration from. Don't like it? you can
+    generate as many as you like.
+</p>
+<p>
+    Don't forget <a href="webgen">WebsiteGen</a>. Have you ever wanted a
+    professor website
+    <a href="https://cs.uwaterloo.ca/~iang/" target="_blank"
+        ><i class="fa-solid fa-arrow-up-right-from-square intext"></i></a
+    >? Well, WebsiteGen will generate you a fully functional
+    <em>style-free</em> webpage for you to admire. Just submit your resume, and
+    ChatGPT will generate a simple html website template for you to customize!
+</p>
+<p>
+    When you're done making a project, but you are too lazy to draft a Linkedin
+    post, use <a href="linkedingen">LinkedinGen</a>! Simply fill in the required
+    fields, and off the horses we go. It'll generate a Linkedin post that will
+    make all the startup CEOs and tech companies notice you, utilising every
+    emoji you can grasp. So don't hesitate to
+    <a href="linkedingen">LinkedinGen</a>!
+</p>
+<p>
+    Have you ever got stuck when replying to emails before. Well, you no longer
+    have to face that dilemma. Just give <a href="emailgen">EmailGen</a> the
+    context of the email, and it will properly draft out a professional (or
+    casual) email that you will definitely use.
+</p>
+<p>
+    When you're done, check out my
+    <a href="https://dundeezhang.com" target="_blank">Portfolio</a>. There you
+    will find much more projects you can fiddle around with and enjoy! Feel free
+    to also star this project on
+    <a href="https://github.com/dundeezhang/aura" target="_blank">GitHub</a> if
+    this has helped you out!
+</p>
 {% endblock %}

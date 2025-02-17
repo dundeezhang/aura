@@ -1,0 +1,39 @@
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.navbar li {
+    margin-right: 20px;
+    position: relative;
+}
+
+i {
+    margin-left: 3px;
+}
+/*
+.navbar li.first {
+    margin-left: 10px;
+}
+*/
+
+.navbar li.last {
+    margin-right: 0;
+}
+
+.navbar a::before {
+    bottom: -3px; /* position */
+}
+
+.navbar {
+    text-align: center;
+    width: fit-content;
+    font-weight: 600;
+    padding-bottom: 20px;
+    border-bottom: solid;
+    border-width: 1px;
+    border-color: rgb(182, 182, 182);
+    margin: auto;
+}

@@ -3,28 +3,66 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!--Style Sheets-->
         <link
             rel="stylesheet"
             href="{{ url_for('static', filename='css/main.css') }}"
         />
-        {% block head %}{% endblock %}
-        <title>Signature Generator</title>
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/components/navbar.css') }}"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/components/box.css') }}"
+        />
+        <!--Fonts-->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+            rel="stylesheet"
+        />
+        <!--Fontawesome-->
+        <script
+            src="https://kit.fontawesome.com/9bcf702876.js"
+            crossorigin="anonymous"
+        ></script>
+        {% block head %} {% endblock %}
+        <title>Auranate</title>
     </head>
     <body style="min-height: 100vh; display: flex; flex-direction: column">
-        <div style="flex: 1">{% block body %}{% endblock %}</div>
+        <div style="flex: 1">
+            <div class="container">
+                <div class="navbar">
+                    <ul>
+                        <li class="first">
+                            <a href="/">Home</a>
+                        </li>
+                        <li class="">
+                            <a href="signature">SignatureGen</a>
+                        </li>
+                        <li>
+                            <a href="webgen">WebsiteGen</a>
+                        </li>
+                        <li>
+                            <a href="linkedingen">LinkedinGen</a>
+                        </li>
+                        <li>
+                            <a href="emailgen">EmailGen</a>
+                        </li>
+                        <li class="last">
+                            <a href="https://dundeezhang.com"
+                                >Portfolio
+                                <i
+                                    class="fa-solid fa-arrow-up-right-from-square"
+                                ></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                {% block body %}{% endblock %}
+            </div>
+        </div>
     </body>
-    <footer
-        style="
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 10px;
-            padding-bottom: 30px;
-        "
-    >
-        <p>Dundee Zhang - Some rights reserved</p>
-        <a href="https://dundeezhang.com" style="color: #fff"
-            >dundeezhang.com</a
-        >
-    </footer>
 </html>

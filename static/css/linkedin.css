@@ -1,0 +1,7 @@
+/* Responsive Design (adjust as needed) */
+@media (max-width: 500px) {
+    .contact-us {
+        width: 90%; /* Adjust width for smaller screens */
+        padding: 20px;
+    }
+}
