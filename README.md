@@ -2,7 +2,7 @@
 
 Here, you will find a collection of tools that will help you accelerate forward in your professional career.
 
-Visit **auranate** at [aura.dhz.app](aura.dhz.app).
+Visit **auranate** at [aura.dhz.app](https://aura.dhz.app).
 
 Built with **Flask, Python, JavaScript, and Firebase**. Integrating **OpenAI GPT 4o-mini and Dall-E 3** technologies. This app allows you to become fully prepared for your professional life. 
 
