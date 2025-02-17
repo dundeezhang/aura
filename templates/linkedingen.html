@@ -5,14 +5,22 @@
     rel="stylesheet"
     href="{{ url_for('static', filename='css/linkedin.css') }}"
 />
+<script src="https://cdn.jsdelivr.net/npm/marked@latest/marked.min.js"></script>
 {% endblock %} {% block body %}
 
 <h1>LinkedIn Post Generator</h1>
 
+<p>
+    LinkedinGen will generate a Linkedin post for you once you have finished
+    making your projects. Less thinking about what to write, more thinking about
+    your product. This tool will boost your productivity and your Linkedin
+    clout, so don't hesitate to use it.
+</p>
+
 <div id="generated-post-container">
     {% if result %}
     <h2>Generated Post:</h2>
-    <p>Note that this is generated in plain markdown.</p>
+    <p>Note that this is generated in markdown.</p>
     <div id="generated-post">{{ result }}</div>
 
     <button id="copy-button">Copy Post</button>
@@ -49,68 +57,8 @@
 </div>
 
 <div id="generating-message" style="display: none">
-    Generating... Please wait.
+    <span class="glow">Generating... Please wait.</span>
 </div>
-
-<script>
-    const formContainer = document.getElementById("form-container");
-    const generatingMessage = document.getElementById("generating-message");
-    const linkedinForm = document.getElementById("linkedin-form");
-    const generateButton = document.getElementById("generate-button");
-
-    linkedinForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        formContainer.style.display = "none"; // Hide the form
-        generatingMessage.style.display = "block"; // Show the generating message
-
-        fetch(linkedinForm.action, {
-            method: linkedinForm.method,
-            body: new FormData(linkedinForm),
-        })
-            .then((response) => response.text())
-            .then((html) => {
-                document.documentElement.innerHTML = html;
-                attachCopyButtonListener();
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-                generatingMessage.style.display = "none";
-                formContainer.style.display = "block"; // Show form again
-                alert("An error occurred during post generation.");
-            });
-    });
-
-    function attachCopyButtonListener() {
-        const copyButton = document.getElementById("copy-button");
-        const generatedPost = document.getElementById("generated-post");
-
-        if (copyButton && generatedPost) {
-            copyButton.addEventListener("click", function () {
-                const range = document.createRange();
-                range.selectNodeContents(generatedPost);
-                window.getSelection().removeAllRanges();
-                window.getSelection().addRange(range);
-                navigator.clipboard
-                    .writeText(range.toString())
-                    .then(() => {
-                        copyButton.textContent = "Copied!";
-                        setTimeout(() => {
-                            copyButton.textContent = "Copy Post";
-                        }, 2000);
-                    })
-                    .catch((err) => {
-                        console.error("Failed to copy: ", err);
-                        copyButton.textContent = "Copy Failed";
-                        setTimeout(() => {
-                            copyButton.textContent = "Copy Post";
-                        }, 2000);
-                    });
-                window.getSelection().removeAllRanges();
-            });
-        }
-    }
-    attachCopyButtonListener();
-</script>
+<script src="{{ url_for('static', filename='scripts/linkedin.js') }}"></script>
 
 {% endblock %}

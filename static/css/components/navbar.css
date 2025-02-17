@@ -1,39 +1,91 @@
-.navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
+.navbar a {
+    z-index: 9999; /* Set a high z-index value */
 }
-
-.navbar li {
-    margin-right: 20px;
-    position: relative;
-}
-
-i {
-    margin-left: 3px;
-}
-/*
-.navbar li.first {
-    margin-left: 10px;
-}
-*/
-
-.navbar li.last {
-    margin-right: 0;
-}
-
-.navbar a::before {
-    bottom: -3px; /* position */
-}
-
 .navbar {
     text-align: center;
     width: fit-content;
     font-weight: 600;
     padding-bottom: 20px;
-    border-bottom: solid;
-    border-width: 1px;
-    border-color: rgb(182, 182, 182);
+    border-bottom: solid 1px rgb(182, 182, 182);
     margin: auto;
+    position: relative;
+    z-index: 9999; /* Set a high z-index value for the navbar */
+}
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    z-index: 9999; /* Ensure the menu is on top */
+}
+.navbar li {
+    margin-right: 20px;
+    position: relative;
+}
+.navbar li.last {
+    margin-right: 0;
+}
+i {
+    margin-left: 3px;
+}
+
+/* Hamburger menu */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999; /* Ensure hamburger button is on top */
+}
+.menu-toggle:hover {
+    background: none;
+}
+.close-menu {
+    display: none;
+    cursor: pointer;
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: black;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 9999; /* Ensure close button is on top */
+}
+
+@media (max-width: 800px) {
+    .menu-toggle {
+        display: block;
+    }
+    .navbar ul {
+        display: none;
+        flex-direction: column;
+        width: 100vw; /* Span full width of the viewport */
+        background: white;
+        position: fixed; /* Change to fixed positioning */
+        left: 0; /* Align it to the left side of the screen */
+        top: 50px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        align-items: flex-start;
+        z-index: 9998; /* Ensure the menu stays below the buttons but above the background */
+    }
+    .navbar ul.show {
+        display: flex;
+        width: 100vw; /* Ensure the dropdown spans the full width */
+    }
+    .navbar ul li {
+        text-align: left;
+        width: 100%;
+        padding: 10px;
+    }
+    .close-menu.show {
+        display: block;
+    }
 }

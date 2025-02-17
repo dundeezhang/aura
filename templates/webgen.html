@@ -13,7 +13,14 @@
 
 {% block body %}
 
-<h1>Website Generator (Auranater)</h1>
+<h1>Website Generator (Auranator)</h1>
+
+<p>
+    Have you ever looked at a professors website and went: "this is aura." Well,
+    that can be you too. With minimal setup, simply copy and paste your resume,
+    and let Auranator do the work for you. It will generate a 100% aura website
+    with zero CSS so that you can do all the customizing you want!
+</p>
 
 <div class="content">
     <div style="text-align: center">
@@ -36,67 +43,7 @@
     <div id="generated-post" style="display: none">{{ page }}</div>
     <pre id="generated-code">{{ page }}</pre>
 
-    <script>
-        const copyButton = document.getElementById("copy-button");
-        const generatedCode = document.getElementById("generated-code");
-        const downloadButton = document.getElementById("download-button");
-
-        if (copyButton && generatedCode) {
-            copyButton.addEventListener("click", function () {
-                navigator.clipboard
-                    .writeText(generatedCode.textContent)
-                    .then(() => {
-                        copyButton.textContent = "Copied!";
-                        setTimeout(() => {
-                            copyButton.textContent = "Copy Code";
-                        }, 2000);
-                    })
-                    .catch((err) => {
-                        console.error("Failed to copy: ", err);
-                        copyButton.textContent = "Copy Failed";
-                        setTimeout(() => {
-                            copyButton.textContent = "Copy Code";
-                        }, 2000);
-                    });
-            });
-        }
-
-        if (downloadButton && generatedCode) {
-            downloadButton.addEventListener("click", function () {
-                const blob = new Blob([generatedCode.textContent], {
-                    type: "text/html",
-                });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "index.html"; // Set the filename
-                link.style.display = "none"; // Hide the link
-                document.body.appendChild(link); // Add to the DOM
-                link.click(); // Simulate click
-                document.body.removeChild(link); // Remove from the DOM
-                URL.revokeObjectURL(link.href); // Release the URL
-            });
-        }
-
-        if (copyButton && generatedCode) {
-            copyButton.addEventListener("click", function () {
-                navigator.clipboard
-                    .writeText(generatedCode.textContent) // Use textContent for raw text
-                    .then(() => {
-                        copyButton.textContent = "Copied!";
-                        setTimeout(() => {
-                            copyButton.textContent = "Copy Code";
-                        }, 2000);
-                    })
-                    .catch((err) => {
-                        console.error("Failed to copy: ", err);
-                        copyButton.textContent = "Copy Failed";
-                        setTimeout(() => {
-                            copyButton.textContent = "Copy Code";
-                        }, 2000);
-                    });
-            });
-        }
-    </script>
+    <script src="{{ url_for('static', filename='scripts/webgen.js') }}"></script>
     {% endif %}
 </div>
 

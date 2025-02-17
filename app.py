@@ -40,7 +40,7 @@ def gen_email(reply_to, tone, name):
         messages=[
             {
             "role": "user", 
-            "content": f"Write {name} an email replying to {reply_to} with a {tone} tone. Output only the reply email, do not include a subject."
+            "content": f"Write me an email replying to {reply_to} with a {tone} tone. My name is {name}. Output only the reply email, do not include a subject. Add a <br /> tag after the greeting. Add another <br /> tag before and after the farewell."
             }
         ]
     )
